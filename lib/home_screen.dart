@@ -6,6 +6,39 @@ import 'add_reminder_screen.dart';
 import 'models/reminder_model.dart';
 import 'models/user_model.dart';
 
+final employees = [
+  UserModel(
+      employeeId: 1,
+      name: 'Ucup',
+      role: 'Dev',
+      email: "user1@wolkk.com",
+      image: 'assets/ucup.png'),
+  UserModel(
+      employeeId: 1,
+      name: 'Ajiz',
+      role: 'Dev',
+      email: "user1@wolkk.com",
+      image: 'assets/ajis.png'),
+  UserModel(
+      employeeId: 1,
+      name: 'Fran',
+      role: 'Dev',
+      email: "user1@wolkk.com",
+      image: 'assets/fran.png'),
+  UserModel(
+      employeeId: 1,
+      name: 'Gipari',
+      role: 'Dev',
+      email: "user1@wolkk.com",
+      image: 'assets/saye.png'),
+  UserModel(
+      employeeId: 1,
+      name: 'Ivanov',
+      role: 'Dev',
+      email: "user1@wolkk.com",
+      image: 'assets/ivan.png'),
+];
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -49,74 +82,10 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildReminderList(TaskStatus status) {
-    final List<ReminderModel> reminders = [
-      ReminderModel(
-        createdByUser: UserModel(
-            employeeId: 1,
-            name: 'User 1',
-            role: 'Dev',
-            email: "user1@wolkk.com",
-            image: 'assets/ucup.png'),
-        assignedToUser: UserModel(
-            image: 'assets/ajis.png',
-            role: 'Dev',
-            employeeId: 2,
-            name: 'User 2',
-            email: "user2@wolkk.com"),
-        priority: TaskPriority.high,
-        status: TaskStatus.todo,
-        title: 'Reminder 1',
-        description: 'Description 1',
-        reminderId: 1,
-      ),
-      ReminderModel(
-        createdByUser: UserModel(
-            image: 'assets/ivan.png',
-            role: 'Tech Lead',
-            employeeId: 1,
-            name: 'User 3',
-            email: "user3@wolkk.com"),
-        assignedToUser: UserModel(
-            image: 'assets/ivan.png',
-            role: 'Dev',
-            employeeId: 2,
-            name: 'User 3',
-            email: "user2@wolkk.com"),
-        priority: TaskPriority.medium,
-        status: TaskStatus.todo,
-        title: 'Reminder 2',
-        description: 'Description 2',
-        reminderId: 2,
-      ),
-      ReminderModel(
-        createdByUser: UserModel(
-            image: 'assets/saye.png',
-            employeeId: 1,
-            role: 'Dev',
-            name: 'User 3',
-            email: "user3@wolkk.com"),
-        assignedToUser: UserModel(
-            role: 'Dev',
-            image: 'assets/fran.png',
-            employeeId: 2,
-            name: 'User 3',
-            email: "user2@wolkk.com"),
-        priority: TaskPriority.low,
-        status: TaskStatus.resolved,
-        title: 'Reminder 3',
-        description: 'Description 3',
-        reminderId: 3,
-      ),
-    ];
-
-    final filteredReminders =
-        reminders.where((reminder) => reminder.status == status).toList();
-
     return ListView.builder(
-      itemCount: filteredReminders.length,
+      itemCount: employees.length,
       padding: const EdgeInsets.all(16),
       itemBuilder: (context, index) {
-        final reminder = filteredReminders[index];
         return Slidable(
           key: ValueKey(index),
           startActionPane: ActionPane(
@@ -135,7 +104,8 @@ class HomeScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: HomeTile(
-              user: reminder.assignedToUser,
+              user: employees[index],
+              onTap: () {},
             ),
           ),
         );
