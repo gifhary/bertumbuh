@@ -1,3 +1,4 @@
+import 'package:bertumbuh/widgets/home_tile.dart';
 import 'package:flutter/material.dart';
 
 import 'add_reminder_screen.dart';
@@ -13,12 +14,13 @@ class HomeScreen extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Home Screen'),
+          centerTitle: true,
+          title: const Text('Bertumbugh'),
           bottom: const TabBar(
             tabs: [
-              Tab(text: 'TODO'),
-              Tab(text: 'IN PROGRESS'),
-              Tab(text: 'RESOLVED'),
+              Tab(text: 'To Do'),
+              Tab(text: 'Progress'),
+              Tab(text: 'Resolved'),
             ],
           ),
         ),
@@ -45,10 +47,18 @@ class HomeScreen extends StatelessWidget {
   Widget _buildReminderList(TaskStatus status) {
     final List<ReminderModel> reminders = [
       ReminderModel(
-        createdByUser:
-            UserModel(employeeId: 1, name: 'User 1', email: "user1@wolkk.com"),
-        assignedToUser:
-            UserModel(employeeId: 2, name: 'User 2', email: "user2@wolkk.com"),
+        createdByUser: UserModel(
+            employeeId: 1,
+            name: 'User 1',
+            role: 'Dev',
+            email: "user1@wolkk.com",
+            image: 'assets/ucup.png'),
+        assignedToUser: UserModel(
+            image: 'assets/ajis.png',
+            role: 'Dev',
+            employeeId: 2,
+            name: 'User 2',
+            email: "user2@wolkk.com"),
         priority: TaskPriority.high,
         status: TaskStatus.todo,
         title: 'Reminder 1',
@@ -56,21 +66,37 @@ class HomeScreen extends StatelessWidget {
         reminderId: 1,
       ),
       ReminderModel(
-        createdByUser:
-            UserModel(employeeId: 1, name: 'User 3', email: "user3@wolkk.com"),
-        assignedToUser:
-            UserModel(employeeId: 2, name: 'User 3', email: "user2@wolkk.com"),
+        createdByUser: UserModel(
+            image: 'assets/ivan.png',
+            role: 'Tech Lead',
+            employeeId: 1,
+            name: 'User 3',
+            email: "user3@wolkk.com"),
+        assignedToUser: UserModel(
+            image: 'assets/ivan.png',
+            role: 'Dev',
+            employeeId: 2,
+            name: 'User 3',
+            email: "user2@wolkk.com"),
         priority: TaskPriority.medium,
-        status: TaskStatus.inProgress,
+        status: TaskStatus.todo,
         title: 'Reminder 2',
         description: 'Description 2',
         reminderId: 2,
       ),
       ReminderModel(
-        createdByUser:
-            UserModel(employeeId: 1, name: 'User 3', email: "user3@wolkk.com"),
-        assignedToUser:
-            UserModel(employeeId: 2, name: 'User 3', email: "user2@wolkk.com"),
+        createdByUser: UserModel(
+            image: 'assets/saye.png',
+            employeeId: 1,
+            role: 'Dev',
+            name: 'User 3',
+            email: "user3@wolkk.com"),
+        assignedToUser: UserModel(
+            role: 'Dev',
+            image: 'assets/fran.png',
+            employeeId: 2,
+            name: 'User 3',
+            email: "user2@wolkk.com"),
         priority: TaskPriority.low,
         status: TaskStatus.resolved,
         title: 'Reminder 3',
@@ -84,12 +110,15 @@ class HomeScreen extends StatelessWidget {
 
     return ListView.builder(
       itemCount: filteredReminders.length,
+      padding: const EdgeInsets.all(16),
       itemBuilder: (context, index) {
         final reminder = filteredReminders[index];
-        return ListTile(
-          title: Text(reminder.title),
-          subtitle: Text(reminder.description),
-          trailing: trailingTextStyle(reminder.priority),
+
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: HomeTile(
+            user: reminder.assignedToUser,
+          ),
         );
       },
     );
