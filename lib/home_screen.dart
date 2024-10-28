@@ -2,13 +2,12 @@ import 'package:bertumbuh/widgets/home_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-import 'add_reminder_screen.dart';
 import 'models/reminder_model.dart';
 import 'models/user_model.dart';
 
 final employees = [
   UserModel(
-      employeeId: 1,
+      employeeId: 0,
       name: 'Ucup',
       role: 'Dev',
       email: "user1@wolkk.com",
@@ -20,27 +19,34 @@ final employees = [
       email: "user1@wolkk.com",
       image: 'assets/ajis.png'),
   UserModel(
-      employeeId: 1,
+      employeeId: 2,
       name: 'Fran',
       role: 'Dev',
       email: "user1@wolkk.com",
       image: 'assets/fran.png'),
   UserModel(
-      employeeId: 1,
+      employeeId: 3,
       name: 'Gipari',
       role: 'Dev',
       email: "user1@wolkk.com",
       image: 'assets/saye.png'),
   UserModel(
-      employeeId: 1,
+      employeeId: 4,
       name: 'Ivanov',
       role: 'Dev',
       email: "user1@wolkk.com",
       image: 'assets/ivan.png'),
 ];
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int? _expandedId;
 
   @override
   Widget build(BuildContext context) {
@@ -68,15 +74,6 @@ class HomeScreen extends StatelessWidget {
             _buildReminderList(TaskStatus.resolved),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const AddReminderScreen()),
-              );
-            },
-            child: const Icon(Icons.add)),
       ),
     );
   }
@@ -101,12 +98,16 @@ class HomeScreen extends StatelessWidget {
               ),
             ],
           ),
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: HomeTile(
-              user: employees[index],
-              onTap: () {},
-            ),
+          child: HomeTile(
+            expanded: employees[index].employeeId == _expandedId,
+            user: employees[index],
+            onTap: () {
+              setState(() {
+                _expandedId = _expandedId != employees[index].employeeId
+                    ? employees[index].employeeId
+                    : null;
+              });
+            },
           ),
         );
       },
