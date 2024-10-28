@@ -1,5 +1,6 @@
 import 'package:bertumbuh/widgets/home_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'add_reminder_screen.dart';
 import 'models/reminder_model.dart';
@@ -15,8 +16,11 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
+          backgroundColor: Colors.green,
           title: const Text('Bertumbugh'),
           bottom: const TabBar(
+            labelColor: Colors.white,
+            indicatorColor: Colors.white,
             tabs: [
               Tab(text: 'To Do'),
               Tab(text: 'Progress'),
@@ -113,11 +117,26 @@ class HomeScreen extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       itemBuilder: (context, index) {
         final reminder = filteredReminders[index];
-
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: HomeTile(
-            user: reminder.assignedToUser,
+        return Slidable(
+          key: ValueKey(index),
+          startActionPane: ActionPane(
+            motion: const ScrollMotion(),
+            dismissible: DismissiblePane(onDismissed: () {}),
+            children: [
+              SlidableAction(
+                onPressed: (context) {},
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+                icon: Icons.chevron_right,
+                label: 'Start',
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: HomeTile(
+              user: reminder.assignedToUser,
+            ),
           ),
         );
       },
