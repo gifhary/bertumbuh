@@ -36,7 +36,7 @@ class LoginScreen extends StatelessWidget {
             TextField(
               obscureText: true,
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.lock),
+                prefixIcon: const Icon(Icons.lock),
                 contentPadding: const EdgeInsets.all(16.0),
                 labelText: 'Employee Password',
                 border: OutlineInputBorder(
