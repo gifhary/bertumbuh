@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'add_reminder_screen.dart';
 import 'models/reminder_model.dart';
@@ -13,8 +14,11 @@ class HomeScreen extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Home Screen'),
+          backgroundColor: Colors.green,
+          title: const Text('Home'),
           bottom: const TabBar(
+            labelColor: Colors.white,
+            indicatorColor: Colors.white,
             tabs: [
               Tab(text: 'TODO'),
               Tab(text: 'IN PROGRESS'),
@@ -86,10 +90,26 @@ class HomeScreen extends StatelessWidget {
       itemCount: filteredReminders.length,
       itemBuilder: (context, index) {
         final reminder = filteredReminders[index];
-        return ListTile(
-          title: Text(reminder.title),
-          subtitle: Text(reminder.description),
-          trailing: trailingTextStyle(reminder.priority),
+        return Slidable(
+          key: ValueKey(index),
+          startActionPane: ActionPane(
+            motion: const ScrollMotion(),
+            dismissible: DismissiblePane(onDismissed: () {}),
+            children: [
+              SlidableAction(
+                onPressed: (context) {},
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+                icon: Icons.chevron_right,
+                label: 'Start',
+              ),
+            ],
+          ),
+          child: ListTile(
+            title: Text(reminder.title),
+            subtitle: Text(reminder.description),
+            trailing: trailingTextStyle(reminder.priority),
+          ),
         );
       },
     );
