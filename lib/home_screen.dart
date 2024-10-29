@@ -1,42 +1,10 @@
+import 'package:bertumbuh/constant.dart';
 import 'package:bertumbuh/widgets/home_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import 'add_reminder_screen.dart';
 import 'models/reminder_model.dart';
-import 'models/user_model.dart';
-
-final employees = [
-  UserModel(
-      employeeId: 0,
-      name: 'Ucup',
-      role: 'Dev',
-      email: "user1@wolkk.com",
-      image: 'assets/ucup.png'),
-  UserModel(
-      employeeId: 1,
-      name: 'Ajiz',
-      role: 'Dev',
-      email: "user1@wolkk.com",
-      image: 'assets/ajis.png'),
-  UserModel(
-      employeeId: 2,
-      name: 'Fran',
-      role: 'Dev',
-      email: "user1@wolkk.com",
-      image: 'assets/fran.png'),
-  UserModel(
-      employeeId: 3,
-      name: 'Gipari',
-      role: 'Dev',
-      email: "user1@wolkk.com",
-      image: 'assets/saye.png'),
-  UserModel(
-      employeeId: 4,
-      name: 'Ivanov',
-      role: 'Dev',
-      email: "user1@wolkk.com",
-      image: 'assets/ivan.png'),
-];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -46,33 +14,94 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int? _expandedId;
+  late List<ReminderModel> reminders;
+
+  @override
+  void initState() {
+    reminders = Constant.reminders;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Colors.green,
-          title: const Text('Bertumbugh'),
-          bottom: const TabBar(
-            labelColor: Colors.white,
-            indicatorColor: Colors.white,
-            tabs: [
-              Tab(text: 'To Do'),
-              Tab(text: 'Progress'),
-              Tab(text: 'Resolved'),
+            backgroundColor: Colors.green,
+            title: const Text(
+              'Home',
+              style: TextStyle(color: Colors.white),
+            )),
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                backgroundColor: Colors.green,
+                expandedHeight: 240.0,
+                floating: false,
+                pinned: true,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: _buildStatusCard('To Do', TaskStatus.todo,
+                                count: reminders
+                                    .where((element) =>
+                                        element.status == TaskStatus.todo)
+                                    .length)),
+                        Expanded(
+                            child: _buildStatusCard(
+                                'In Progress', TaskStatus.inProgress,
+                                count: reminders
+                                    .where((element) =>
+                                        element.status == TaskStatus.inProgress)
+                                    .length)),
+                        Expanded(
+                            child: _buildStatusCard(
+                                'Resolved', TaskStatus.resolved,
+                                count: reminders
+                                    .where((element) =>
+                                        element.status == TaskStatus.resolved)
+                                    .length)),
+                      ],
+                    ),
+                  ),
+                ),
+                bottom: const TabBar(
+                  labelColor: Colors.white,
+                  indicatorColor: Colors.white,
+                  tabs: [
+                    Tab(text: 'To Do'),
+                    Tab(text: 'Progress'),
+                    Tab(text: 'Resolved'),
+                  ],
+                ),
+              ),
+            ];
+          },
+          body: TabBarView(
+            children: [
+              _buildReminderList(TaskStatus.todo),
+              _buildReminderList(TaskStatus.inProgress),
+              _buildReminderList(TaskStatus.resolved),
             ],
           ),
         ),
-        body: TabBarView(
-          children: [
-            _buildReminderList(TaskStatus.todo),
-            _buildReminderList(TaskStatus.inProgress),
-            _buildReminderList(TaskStatus.resolved),
-          ],
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.green,
+          foregroundColor: Colors.white,
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const AddReminderScreen()),
+            );
+          },
+          child: const Icon(Icons.add),
         ),
       ),
     );
@@ -80,50 +109,82 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildReminderList(TaskStatus status) {
     return ListView.builder(
-      itemCount: employees.length,
+      itemCount: reminders.length,
       padding: const EdgeInsets.all(16),
       itemBuilder: (context, index) {
+        if (reminders[index].status != status) {
+          return const SizedBox.shrink();
+        }
         return Slidable(
           key: ValueKey(index),
           startActionPane: ActionPane(
             motion: const ScrollMotion(),
             dismissible: DismissiblePane(onDismissed: () {}),
             children: [
-              SlidableAction(
-                onPressed: (context) {},
-                backgroundColor: Colors.green,
-                foregroundColor: Colors.white,
-                icon: Icons.chevron_right,
-                label: 'Start',
-              ),
+              if (reminders[index].status != TaskStatus.resolved)
+                SlidableAction(
+                  borderRadius: BorderRadius.circular(10.0),
+                  onPressed: (context) {
+                    if (reminders[index].status == TaskStatus.todo) {
+                      _onReminderStatusChanged(index, TaskStatus.inProgress);
+                    } else {
+                      _onReminderStatusChanged(index, TaskStatus.resolved);
+                    }
+                  },
+                  backgroundColor: Colors.green,
+                  foregroundColor: Colors.white,
+                  icon: Icons.chevron_right,
+                  label: reminders[index].status == TaskStatus.todo
+                      ? 'Start'
+                      : 'Resolve',
+                ),
             ],
           ),
-          child: HomeTile(
-            expanded: employees[index].employeeId == _expandedId,
-            user: employees[index],
-            onTap: () {
-              setState(() {
-                _expandedId = _expandedId != employees[index].employeeId
-                    ? employees[index].employeeId
-                    : null;
-              });
-            },
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: HomeTile(
+              reminderItem: reminders[index],
+            ),
           ),
         );
       },
     );
   }
 
-  Widget trailingTextStyle(TaskPriority priorityType) {
-    switch (priorityType) {
-      case TaskPriority.low:
-        return const Text('Low', style: TextStyle(color: Colors.amber));
-      case TaskPriority.medium:
-        return const Text('Medium', style: TextStyle(color: Colors.orange));
-      case TaskPriority.high:
-        return const Text('High', style: TextStyle(color: Colors.red));
-      default:
-        return const Text('Low', style: TextStyle(color: Colors.amber));
-    }
+  Widget _buildStatusCard(String title, TaskStatus status, {int count = 0}) {
+    return AspectRatio(
+      aspectRatio: 1.0,
+      child: Card(
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title.toUpperCase(),
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.green, fontSize: 12),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                '$count',
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _onReminderStatusChanged(int index, TaskStatus status) {
+    setState(() {
+      reminders[index] = reminders[index].copyWith(status: status);
+    });
   }
 }

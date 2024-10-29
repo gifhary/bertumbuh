@@ -24,4 +24,17 @@ class ReminderModel {
     required this.reminderId,
     this.feedBack,
   });
+
+  ReminderModel copyWith({required TaskStatus status}) {
+    return ReminderModel(
+      createdByUser: createdByUser,
+      assignedToUser: assignedToUser,
+      priority: priority,
+      status: status,
+      title: title,
+      description: description,
+      reminderId: reminderId,
+      feedBack: feedBack,
+    );
+  }
 }
