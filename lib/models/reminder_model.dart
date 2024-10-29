@@ -1,12 +1,12 @@
 import 'user_model.dart';
 
-enum TaskPriority { low, medium, high }
+enum TaskPriority { urgent, medium, high }
 
 enum TaskStatus { todo, inProgress, resolved }
 
 class ReminderModel {
   final UserModel createdByUser;
-  final UserModel assignedToUser;
+  final List<UserModel> assignedToUser;
   final TaskPriority priority;
   final TaskStatus status;
   final String title;

@@ -40,14 +40,16 @@ class Constant {
       reminderId: 1,
       title: 'Fill quisioner',
       description: 'Create a new project for the client',
-      priority: TaskPriority.high,
+      priority: TaskPriority.medium,
       status: TaskStatus.todo,
-      assignedToUser: UserModel(
-          employeeId: 1,
-          name: 'Ucup',
-          role: 'Dev',
-          email: "user1@wolkk.com",
-          image: 'assets/ucup.png'),
+      assignedToUser: [
+        UserModel(
+            employeeId: 1,
+            name: 'Ucup',
+            role: 'Dev',
+            email: "user1@wolkk.com",
+            image: 'assets/ucup.png'),
+      ],
       createdByUser: UserModel(
           employeeId: 1,
           name: 'Ajiz',
@@ -61,12 +63,14 @@ class Constant {
       description: 'Create a new project for the client',
       priority: TaskPriority.medium,
       status: TaskStatus.inProgress,
-      assignedToUser: UserModel(
-          employeeId: 1,
-          name: 'Ucup',
-          role: 'Dev',
-          email: "user1@wolkk.com",
-          image: 'assets/ucup.png'),
+      assignedToUser: [
+        UserModel(
+            employeeId: 1,
+            name: 'Ucup',
+            role: 'Dev',
+            email: "user1@wolkk.com",
+            image: 'assets/ucup.png'),
+      ],
       createdByUser: UserModel(
           employeeId: 1,
           name: 'Ajiz',
@@ -78,14 +82,16 @@ class Constant {
       reminderId: 3,
       title: 'Create a new project',
       description: 'Create a new project for the client',
-      priority: TaskPriority.low,
+      priority: TaskPriority.urgent,
       status: TaskStatus.resolved,
-      assignedToUser: UserModel(
-          employeeId: 1,
-          name: 'Ucup',
-          role: 'Dev',
-          email: "user1@wolkk.com",
-          image: 'assets/ucup.png'),
+      assignedToUser: [
+        UserModel(
+            employeeId: 1,
+            name: 'Ucup',
+            role: 'Dev',
+            email: "user1@wolkk.com",
+            image: 'assets/ucup.png'),
+      ],
       createdByUser: UserModel(
           employeeId: 1,
           name: 'Ajiz',
@@ -99,12 +105,14 @@ class Constant {
       description: 'please fill this link: https://wolkk.com',
       priority: TaskPriority.high,
       status: TaskStatus.todo,
-      assignedToUser: UserModel(
-          employeeId: 1,
-          name: 'Ucup',
-          role: 'Dev',
-          email: "user1@wolkk.com",
-          image: 'assets/ucup.png'),
+      assignedToUser: [
+        UserModel(
+            employeeId: 1,
+            name: 'Ucup',
+            role: 'Dev',
+            email: "user1@wolkk.com",
+            image: 'assets/ucup.png'),
+      ],
       createdByUser: UserModel(
           employeeId: 1,
           name: 'Ajiz',
@@ -116,14 +124,16 @@ class Constant {
       reminderId: 5,
       title: 'Review the code',
       description: 'PR link: https://github.com',
-      priority: TaskPriority.high,
+      priority: TaskPriority.urgent,
       status: TaskStatus.todo,
-      assignedToUser: UserModel(
-          employeeId: 1,
-          name: 'Ucup',
-          role: 'Dev',
-          email: "user1@wolkk.com",
-          image: 'assets/ucup.png'),
+      assignedToUser: [
+        UserModel(
+            employeeId: 1,
+            name: 'Ucup',
+            role: 'Dev',
+            email: "user1@wolkk.com",
+            image: 'assets/ucup.png'),
+      ],
       createdByUser: UserModel(
           employeeId: 1,
           name: 'Fran',
@@ -135,14 +145,16 @@ class Constant {
       reminderId: 6,
       title: 'Request meeting',
       description: 'meet at 12.00 PM',
-      priority: TaskPriority.high,
+      priority: TaskPriority.medium,
       status: TaskStatus.todo,
-      assignedToUser: UserModel(
-          employeeId: 1,
-          name: 'Ucup',
-          role: 'Dev',
-          email: "user1@wolkk.com",
-          image: 'assets/ucup.png'),
+      assignedToUser: [
+        UserModel(
+            employeeId: 1,
+            name: 'Ucup',
+            role: 'Dev',
+            email: "user1@wolkk.com",
+            image: 'assets/ucup.png'),
+      ],
       createdByUser: UserModel(
           employeeId: 1,
           name: 'Fran',

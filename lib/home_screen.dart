@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'add_reminder_screen.dart';
+import 'login_screen.dart';
 import 'models/reminder_model.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -29,11 +30,44 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-            backgroundColor: Colors.green,
-            title: const Text(
-              'Home',
-              style: TextStyle(color: Colors.white),
-            )),
+          backgroundColor: Colors.green,
+          title: const Text(
+            'Be Productive, Yusuf',
+            style: TextStyle(color: Colors.white),
+          ),
+          actions: [
+            PopupMenuButton<String>(
+              onSelected: (String result) {
+                switch (result) {
+                  case 'History':
+                    // Add your history logic here
+                    break;
+                  case 'Logout':
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginScreen()),
+                    );
+                    break;
+                }
+              },
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                const PopupMenuItem<String>(
+                  value: 'History',
+                  child: Text('History'),
+                ),
+                const PopupMenuItem<String>(
+                  value: 'Logout',
+                  child: Text('Logout'),
+                ),
+              ],
+              icon: const Icon(
+                Icons.more_vert,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
@@ -94,12 +128,17 @@ class _HomeScreenState extends State<HomeScreen> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.green,
           foregroundColor: Colors.white,
-          onPressed: () {
-            Navigator.push(
+          onPressed: () async {
+            final ReminderModel? data = await Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => const AddReminderScreen()),
             );
+            if (data != null) {
+              setState(() {
+                reminders.add(data);
+              });
+            }
           },
           child: const Icon(Icons.add),
         ),

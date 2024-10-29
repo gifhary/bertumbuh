@@ -33,6 +33,20 @@ class DetailScreen extends StatelessWidget {
                 backgroundImage: AssetImage(reminderItem.createdByUser.image),
               ),
             ),
+            ListTile(
+              title: const Text('Assigned To'),
+              subtitle: Column(
+                children: reminderItem.assignedToUser.map((user) {
+                  return ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(user.name),
+                    leading: CircleAvatar(
+                      backgroundImage: AssetImage(user.image),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
           ],
         ),
       ),
@@ -41,14 +55,14 @@ class DetailScreen extends StatelessWidget {
 
   Widget priorityText(TaskPriority priorityType) {
     switch (priorityType) {
-      case TaskPriority.low:
-        return const Text('Low', style: TextStyle(color: Colors.amber));
+      case TaskPriority.urgent:
+        return const Text('Urgent', style: TextStyle(color: Colors.red));
       case TaskPriority.medium:
-        return const Text('Medium', style: TextStyle(color: Colors.orange));
+        return const Text('Medium', style: TextStyle(color: Colors.green));
       case TaskPriority.high:
-        return const Text('High', style: TextStyle(color: Colors.red));
+        return const Text('High', style: TextStyle(color: Colors.amber));
       default:
-        return const Text('Low', style: TextStyle(color: Colors.amber));
+        return const Text('Urgent', style: TextStyle(color: Colors.red));
     }
   }
 
